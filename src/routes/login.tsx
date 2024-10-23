@@ -2,8 +2,9 @@ import { Flex, FormControl, FormLabel, Heading, Text, Input, Button, FormErrorMe
 import { useMutation } from '@tanstack/react-query';
 import { createFileRoute, Navigate } from '@tanstack/react-router';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { login, UnauthorizedError } from '../api';
 import { useAuthentication } from '../contexts/authentication';
+import { UnauthorizedError } from '@/api/api.errors.ts';
+import { Service } from '@/api';
 
 type SearchParams = {
   redirect?: string;
@@ -25,7 +26,7 @@ export const LoginPage: React.FC = () => {
   const { redirect } = Route.useSearch();
   const { state, authenticate } = useAuthentication();
   const { mutate, isPending, error } = useMutation({
-    mutationFn: (data: Inputs) => login(data.username, data.password),
+    mutationFn: (data: Inputs) => Service.login(data.username, data.password),
     onSuccess: ({ jwt }) => {
       authenticate(jwt);
     },

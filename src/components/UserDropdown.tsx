@@ -2,7 +2,7 @@ import { Menu, MenuButton, Text, MenuList, MenuItem, Avatar, Icon, Flex } from '
 import { useQuery } from '@tanstack/react-query';
 import { CaretDown, CaretUp, SignOut } from '@phosphor-icons/react';
 import { useAuthentication } from '../contexts/authentication';
-import { getUserById } from '../api';
+import { Service } from '@/api';
 
 export const UserDropdown: React.FC = () => {
   const { state, signout } = useAuthentication();
@@ -10,7 +10,7 @@ export const UserDropdown: React.FC = () => {
     queryKey: ['user', state.isAuthenticated ? state.userId : 'anon'],
     queryFn: () => {
       if (state.isAuthenticated) {
-        return getUserById(state.token, state.userId);
+        return Service.getUserById(state.token, state.userId);
       }
       return null;
     },

@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, Textarea, VStack } from '@chakra-ui/react';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { MemeEditor } from '../../components/meme-editor';
+import { MemeEditor } from '../../components/MemeEditor.tsx';
 import { useMemo, useState } from 'react';
-import { MemePictureProps } from '../../components/meme-picture';
+import { MemePictureProps } from '../../components/MemePicture.tsx';
 import { Plus, Trash } from '@phosphor-icons/react';
 
 export const Route = createFileRoute('/_authentication/create')({

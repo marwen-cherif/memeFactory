@@ -3,7 +3,7 @@ import { useAuthentication } from '../contexts/authentication.tsx';
 import { Button, Flex, Heading, HStack, Icon, StackDivider } from '@chakra-ui/react';
 import { Link, Outlet } from '@tanstack/react-router';
 import { Plus } from '@phosphor-icons/react';
-import { UserDropdown } from './user-dropdown.tsx';
+import { UserDropdown } from './UserDropdown.tsx';
 
 export const Layout: FC = () => {
   const { state } = useAuthentication();
