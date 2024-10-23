@@ -43,12 +43,12 @@ Start by forking this repository and clone it locally.
 
 Then, install the node modules:
 ```bash
-npm install
+pnpm install
 ```
 
 Once the dependencies are installed, you can run the project by running the following command:
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 You'll be able to access the application from `http://localhost:5173/` and you can use the following credentials to login:
@@ -58,10 +58,10 @@ You'll be able to access the application from `http://localhost:5173/` and you c
 The application comes with some unit tests that you can run by using the following command:
 
 ```bash
-npm run test
+pnpm run test
 
 ## Or for the coverage
-npm run coverage
+pnpm run coverage
 ```
 
 ### REST API
