@@ -1,26 +1,6 @@
+import { publicApiCall, apiCall } from '@/api/api.helpers.ts';
+
 const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
-
-export class UnauthorizedError extends Error {
-  constructor() {
-    super('Unauthorized');
-  }
-}
-
-export class NotFoundError extends Error {
-  constructor() {
-    super('Not Found');
-  }
-}
-
-function checkStatus(response: Response) {
-  if (response.status === 401) {
-    throw new UnauthorizedError();
-  }
-  if (response.status === 404) {
-    throw new NotFoundError();
-  }
-  return response;
-}
 
 export type LoginResponse = {
   jwt: string;
@@ -33,13 +13,10 @@ export type LoginResponse = {
  * @returns
  */
 export async function login(username: string, password: string): Promise<LoginResponse> {
-  return await fetch(`${BASE_URL}/authentication/login`, {
+  return publicApiCall<LoginResponse>(`${BASE_URL}/authentication/login`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ username, password }),
-  }).then((res) => checkStatus(res).json());
+    body: { username, password },
+  });
 }
 
 export type GetUserByIdResponse = {
@@ -55,12 +32,7 @@ export type GetUserByIdResponse = {
  * @returns
  */
 export async function getUserById(token: string, id: string): Promise<GetUserByIdResponse> {
-  return await fetch(`${BASE_URL}/users/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkStatus(res).json());
+  return apiCall<GetUserByIdResponse>(`${BASE_URL}/users/${id}`, token, {});
 }
 
 export type GetMemesResponse = {
@@ -88,12 +60,7 @@ export type GetMemesResponse = {
  * @returns
  */
 export async function getMemes(token: string, page: number): Promise<GetMemesResponse> {
-  return await fetch(`${BASE_URL}/memes?page=${page}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkStatus(res).json());
+  return apiCall<GetMemesResponse>(`${BASE_URL}/memes?page=${page}`, token, {});
 }
 
 export type GetMemeCommentsResponse = {
@@ -115,12 +82,7 @@ export type GetMemeCommentsResponse = {
  * @returns
  */
 export async function getMemeComments(token: string, memeId: string, page: number): Promise<GetMemeCommentsResponse> {
-  return await fetch(`${BASE_URL}/memes/${memeId}/comments?page=${page}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkStatus(res).json());
+  return apiCall<GetMemeCommentsResponse>(`${BASE_URL}/memes/${memeId}/comments?page=${page}`, token, {});
 }
 
 export type CreateCommentResponse = {
@@ -142,12 +104,8 @@ export async function createMemeComment(
   memeId: string,
   content: string
 ): Promise<CreateCommentResponse> {
-  return await fetch(`${BASE_URL}/memes/${memeId}/comments`, {
+  return apiCall<CreateCommentResponse>(`${BASE_URL}/memes/${memeId}/comments`, token, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ content }),
-  }).then((res) => checkStatus(res).json());
+    body: { content },
+  });
 }
