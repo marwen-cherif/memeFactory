@@ -25,9 +25,14 @@ export async function publicApiCall<T>(
 
 export async function apiCall<T>(
   url: string,
-  token: string,
   options: { body?: Record<string, unknown>; method?: string }
 ): Promise<T> {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new UnauthorizedError();
+  }
+
   const headers = {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,

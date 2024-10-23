@@ -1,25 +1,17 @@
-import { Menu, MenuButton, Text, MenuList, MenuItem, Avatar, Icon, Flex } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { Menu, MenuButton, MenuList, MenuItem, Icon, Flex } from '@chakra-ui/react';
 import { CaretDown, CaretUp, SignOut } from '@phosphor-icons/react';
 import { useAuthentication } from '../contexts/authentication';
-import { Service } from '@/api';
+import { UserAvatar } from '@/components/UserAvatar/UserAvatar.tsx';
+import { UserDisplayName } from '@/components/UserDisplayName/UserDisplayName.tsx';
 
 export const UserDropdown: React.FC = () => {
   const { state, signout } = useAuthentication();
-  const { data: user, isLoading } = useQuery({
-    queryKey: ['user', state.isAuthenticated ? state.userId : 'anon'],
-    queryFn: () => {
-      if (state.isAuthenticated) {
-        return Service.getUserById(state.token, state.userId);
-      }
-      return null;
-    },
-    enabled: state.isAuthenticated,
-  });
 
-  if (!state.isAuthenticated || isLoading) {
+  if (!state.isAuthenticated) {
     return null;
   }
+
+  const userId = state.userId;
 
   return (
     <Menu>
@@ -27,8 +19,8 @@ export const UserDropdown: React.FC = () => {
         <>
           <MenuButton>
             <Flex direction="row" alignItems="center">
-              <Avatar size="xs" mr={2} name={user?.username} src={user?.pictureUrl} border="1px solid white" />
-              <Text color="white">{user?.username}</Text>
+              <UserAvatar userId={userId} size="xs" mr={2} />
+              <UserDisplayName userId={userId} />
               <Icon color="white" ml={2} as={isOpen ? CaretUp : CaretDown} mt={1} />
             </Flex>
           </MenuButton>

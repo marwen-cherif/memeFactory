@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 import { act, fireEvent, waitFor, screen } from '@testing-library/react';
 import { renderWithRouter } from '../utils';
-import { LoginPage } from '../../routes/login';
+import { LoginPage } from '../../pages/LoginPage.tsx';
 import { AuthenticationContext, AuthenticationState } from '../../contexts/authentication';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChakraProvider } from '@chakra-ui/react';

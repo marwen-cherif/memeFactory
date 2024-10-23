@@ -7,6 +7,7 @@ import { UserDropdown } from './UserDropdown.tsx';
 
 export const Layout: FC = () => {
   const { state } = useAuthentication();
+
   return (
     <Flex width="full" height="full" direction="column">
       {/* Header */}

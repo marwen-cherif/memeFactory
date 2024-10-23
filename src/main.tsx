@@ -26,6 +26,7 @@ const queryClient = new QueryClient();
 
 function InnerApp() {
   const { state } = useAuthentication();
+
   return <RouterProvider router={router} context={{ authState: state }} />;
 }
 
