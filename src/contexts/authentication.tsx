@@ -20,9 +20,19 @@ export type Authentication = {
 export const AuthenticationContext = createContext<Authentication | undefined>(undefined);
 
 export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [state, setState] = useState<AuthenticationState>({
-    isAuthenticated: false,
-  });
+  const initialJwt = localStorage.getItem('token');
+
+  const [state, setState] = useState<AuthenticationState>(
+    initialJwt
+      ? {
+          isAuthenticated: true,
+          token: initialJwt,
+          userId: jwtDecode<{ id: string }>(initialJwt).id,
+        }
+      : {
+          isAuthenticated: false,
+        }
+  );
 
   const authenticate = useCallback(
     (token: string) => {
@@ -37,6 +47,7 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
 
   const signout = useCallback(() => {
     setState({ isAuthenticated: false });
+    localStorage.removeItem('token');
   }, [setState]);
 
   const contextValue = useMemo(() => ({ state, authenticate, signout }), [state, authenticate, signout]);
@@ -46,16 +57,20 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
 
 export function useAuthentication() {
   const context = useContext(AuthenticationContext);
+
   if (!context) {
     throw new Error('useAuthentication must be used within an AuthenticationProvider');
   }
+
   return context;
 }
 
-export function useAuthToken() {
+export function useUserId() {
   const { state } = useAuthentication();
+
   if (!state.isAuthenticated) {
     throw new Error('User is not authenticated');
   }
-  return state.token;
+
+  return state.userId;
 }
