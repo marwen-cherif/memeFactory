@@ -1,6 +1,7 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Service } from '@/api';
 import { useForm } from 'react-hook-form';
+import { GET_MEME_COMMENT_QUERY_KEY } from '@/pages/MemeFeedPage/MemeFeedItem/MemeFeedItemComments/hooks/useGetMemeComments.ts';
 
 export const useCreateMemeComment = ({ memeId }: { memeId: string }) => {
   const formContext = useForm<{ content: string }>({
@@ -8,10 +9,14 @@ export const useCreateMemeComment = ({ memeId }: { memeId: string }) => {
       content: '',
     },
   });
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: { memeId: string; content: string }) => {
-      await Service.createMemeComment(data.memeId, data.content);
+      return await Service.createMemeComment(data.memeId, data.content);
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: [GET_MEME_COMMENT_QUERY_KEY, { memeId }] });
     },
   });
 

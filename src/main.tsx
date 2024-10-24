@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router';
 import { ChakraProvider } from '@chakra-ui/react';
 import { theme } from './config/theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
@@ -36,6 +37,8 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
+        {import.meta.env.VITE_ENV === 'dev' && <ReactQueryDevtools initialIsOpen={false} />}
+
         <ChakraProvider theme={theme}>
           <AuthenticationProvider>
             <InnerApp />

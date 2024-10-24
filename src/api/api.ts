@@ -77,21 +77,13 @@ export async function getMemeComments(memeId: string, page: number): Promise<Bas
   });
 }
 
-export type CreateCommentResponse = {
-  id: string;
-  content: string;
-  createdAt: string;
-  authorId: string;
-  memeId: string;
-};
-
 /**
  * Create a comment for a meme
  * @param memeId
  * @param content
  */
-export async function createMemeComment(memeId: string, content: string): Promise<CreateCommentResponse> {
-  return apiCall<CreateCommentResponse>(`${BASE_URL}/memes/${memeId}/comments`, {
+export async function createMemeComment(memeId: string, content: string): Promise<MemeComment> {
+  return apiCall<MemeComment>(`${BASE_URL}/memes/${memeId}/comments`, {
     method: 'POST',
     body: { content },
   });
