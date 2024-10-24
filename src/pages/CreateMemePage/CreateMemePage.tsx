@@ -1,7 +1,7 @@
 import { FC, useMemo, useState } from 'react';
 import { MemePictureProps } from '@/components/MemePicture.tsx';
 import { Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, Textarea, VStack } from '@chakra-ui/react';
-import { MemeEditor } from '@/components/MemeEditor.tsx';
+import { MemeEditor } from '@/components/MemeEditor/MemeEditor.tsx';
 import { Plus, Trash } from '@phosphor-icons/react';
 import { Link } from '@tanstack/react-router';
 
