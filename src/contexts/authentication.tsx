@@ -1,5 +1,6 @@
-import { jwtDecode } from 'jwt-decode';
 import { createContext, PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
+import { deserializeJwt } from '@/helpers/deserializeJwt.ts';
+import { InvalidTokenError } from '@/api/api.errors.ts';
 
 export type AuthenticationState =
   | {
@@ -22,12 +23,14 @@ export const AuthenticationContext = createContext<Authentication | undefined>(u
 export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const initialJwt = localStorage.getItem('token');
 
+  const parsedJwt = initialJwt ? deserializeJwt<{ id: string }>(initialJwt) : undefined;
+
   const [state, setState] = useState<AuthenticationState>(
-    initialJwt
+    initialJwt && parsedJwt?.id
       ? {
           isAuthenticated: true,
           token: initialJwt,
-          userId: jwtDecode<{ id: string }>(initialJwt).id,
+          userId: parsedJwt.id,
         }
       : {
           isAuthenticated: false,
@@ -36,10 +39,16 @@ export const AuthenticationProvider: React.FC<PropsWithChildren> = ({ children }
 
   const authenticate = useCallback(
     (token: string) => {
+      const userId = deserializeJwt<{ id: string }>(token)?.id;
+
+      if (!userId) {
+        throw new InvalidTokenError();
+      }
+
       setState({
         isAuthenticated: true,
         token,
-        userId: jwtDecode<{ id: string }>(token).id,
+        userId: userId,
       });
     },
     [setState]
@@ -59,7 +68,7 @@ export function useAuthentication() {
   const context = useContext(AuthenticationContext);
 
   if (!context) {
-    throw new Error('useAuthentication must be used within an AuthenticationProvider');
+    throw new Error('useAuthentication must not be used within an AuthenticationProvider');
   }
 
   return context;

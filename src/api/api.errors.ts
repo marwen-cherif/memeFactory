@@ -9,3 +9,9 @@ export class NotFoundError extends Error {
     super('Not Found');
   }
 }
+
+export class InvalidTokenError extends Error {
+  constructor() {
+    super('Invalid Token');
+  }
+}
