@@ -1,8 +1,16 @@
 import { NotFoundError, UnauthorizedError } from '@/api/api.errors.ts';
+import { redirect } from '@tanstack/react-router';
 
 function checkStatus(response: Response) {
   if (response.status === 401) {
-    throw new UnauthorizedError();
+    localStorage.removeItem('token');
+
+    throw redirect({
+      to: '/login',
+      search: {
+        redirect: location.href,
+      },
+    });
   }
   if (response.status === 404) {
     throw new NotFoundError();
