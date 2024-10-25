@@ -1,4 +1,11 @@
-import { createMemeComment, getMemeComments, getMemes, getUserById, login } from '@/api/api.ts';
+import {
+  createMeme,
+  createMemeComment,
+  getMemeComments,
+  getMemes,
+  getUserById,
+  login,
+} from '@/api/api.ts';
 
 export const Service = {
   getMemes,
@@ -6,4 +13,5 @@ export const Service = {
   getUserById,
   getMemeComments,
   createMemeComment,
+  createMeme,
 };

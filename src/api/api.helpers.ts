@@ -50,3 +50,42 @@ export async function apiCall<T>(
   const checkedResponse = checkStatus(response);
   return checkedResponse.json();
 }
+
+export async function multipartApiCall<T>(
+  url: string,
+  data: Record<string, unknown> = {}
+): Promise<T> {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    throw new UnauthorizedError();
+  }
+
+  const formData = new FormData();
+
+  Object.keys(data).forEach((key) => {
+    if (Array.isArray(data[key])) {
+      data[key].forEach((item, index) => {
+        Object.keys(item).forEach((subKey) => {
+          formData.append(`${key}[${index}][${subKey}]`, item[subKey]);
+        });
+      });
+    } else {
+      formData.append(key, data[key] as string | Blob | File);
+    }
+  });
+
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers,
+    body: formData,
+  });
+
+  const checkedResponse = checkStatus(response);
+
+  return checkedResponse.json();
+}

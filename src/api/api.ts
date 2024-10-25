@@ -1,4 +1,4 @@
-import { publicApiCall, apiCall } from '@/api/api.helpers.ts';
+import { publicApiCall, apiCall, multipartApiCall } from '@/api/api.helpers.ts';
 import { BasePaginatedResponse } from './api.types';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
@@ -13,7 +13,10 @@ export type LoginResponse = {
  * @param password
  * @returns
  */
-export async function login(username: string, password: string): Promise<LoginResponse> {
+export async function login(
+  username: string,
+  password: string
+): Promise<LoginResponse> {
   return publicApiCall<LoginResponse>(`${BASE_URL}/authentication/login`, {
     method: 'POST',
     body: { username, password },
@@ -32,7 +35,9 @@ export type GetUserByIdResponse = {
  * @returns
  */
 export async function getUserById(id: string): Promise<GetUserByIdResponse> {
-  return apiCall<GetUserByIdResponse>(`${BASE_URL}/users/${id}`, { method: 'GET' });
+  return apiCall<GetUserByIdResponse>(`${BASE_URL}/users/${id}`, {
+    method: 'GET',
+  });
 }
 
 export interface Meme {
@@ -55,7 +60,10 @@ export interface Meme {
  * @returns
  */
 export async function getMemes(page: number) {
-  return apiCall<BasePaginatedResponse<Meme>>(`${BASE_URL}/memes?page=${page}`, { method: 'GET' });
+  return apiCall<BasePaginatedResponse<Meme>>(
+    `${BASE_URL}/memes?page=${page}`,
+    { method: 'GET' }
+  );
 }
 
 export type MemeComment = {
@@ -71,10 +79,30 @@ export type MemeComment = {
  * @param memeId
  * @returns
  */
-export async function getMemeComments(memeId: string, page: number): Promise<BasePaginatedResponse<MemeComment>> {
-  return apiCall<BasePaginatedResponse<MemeComment>>(`${BASE_URL}/memes/${memeId}/comments?page=${page}`, {
-    method: 'GET',
-  });
+export async function getMemeComments(
+  memeId: string,
+  page: number
+): Promise<BasePaginatedResponse<MemeComment>> {
+  return apiCall<BasePaginatedResponse<MemeComment>>(
+    `${BASE_URL}/memes/${memeId}/comments?page=${page}`,
+    {
+      method: 'GET',
+    }
+  );
+}
+
+export type CreateMemeRequest = {
+  picture: File;
+  description: string;
+  texts: {
+    content: string;
+    x: number;
+    y: number;
+  }[];
+};
+
+export async function createMeme(meme: CreateMemeRequest): Promise<Meme> {
+  return multipartApiCall<Meme>(`${BASE_URL}/memes`, meme);
 }
 
 /**
@@ -82,7 +110,10 @@ export async function getMemeComments(memeId: string, page: number): Promise<Bas
  * @param memeId
  * @param content
  */
-export async function createMemeComment(memeId: string, content: string): Promise<MemeComment> {
+export async function createMemeComment(
+  memeId: string,
+  content: string
+): Promise<MemeComment> {
   return apiCall<MemeComment>(`${BASE_URL}/memes/${memeId}/comments`, {
     method: 'POST',
     body: { content },
