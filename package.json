@@ -51,6 +51,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "husky": "^9.1.6",
+    "intersection-observer": "^0.12.2",
     "jsdom": "^24.1.1",
     "lint-staged": "^15.2.10",
     "msw": "^2.3.5",

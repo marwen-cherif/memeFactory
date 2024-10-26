@@ -58,6 +58,7 @@ export const MemePicture: React.FC<MemePictureProps> = ({
     >
       {texts.map((text, index) => (
         <Caption
+          key={text.content}
           text={text}
           index={index}
           fontSize={fontSize}
