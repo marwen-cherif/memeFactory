@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Flex, Text, VStack } from '@chakra-ui/react';
 import { format } from 'timeago.js';
-import { MemePicture } from '@/components/MemePicture.tsx';
+import { MemePicture } from '@/components/MemePicture/MemePicture.tsx';
 import { Meme } from '@/api/api.ts';
 import { UserAvatar } from '@/components/UserAvatar/UserAvatar.tsx';
 import { UserDisplayName } from '@/components/UserDisplayName/UserDisplayName.tsx';

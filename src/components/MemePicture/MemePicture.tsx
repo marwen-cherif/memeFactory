@@ -1,5 +1,6 @@
-import { Box, Text, useDimensions } from '@chakra-ui/react';
+import { Box, useDimensions } from '@chakra-ui/react';
 import { useMemo, useRef } from 'react';
+import { Caption } from '@/components/MemePicture/Caption.tsx';
 
 export type MemePictureProps = {
   pictureUrl: string;
@@ -15,7 +16,11 @@ const REF_WIDTH = 800;
 const REF_HEIGHT = 450;
 const REF_FONT_SIZE = 36;
 
-export const MemePicture: React.FC<MemePictureProps> = ({ pictureUrl, texts: rawTexts, dataTestId = '' }) => {
+export const MemePicture: React.FC<MemePictureProps> = ({
+  pictureUrl,
+  texts: rawTexts,
+  dataTestId = '',
+}) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const dimensions = useDimensions(containerRef, true);
   const boxWidth = dimensions?.borderBox.width;
@@ -52,22 +57,12 @@ export const MemePicture: React.FC<MemePictureProps> = ({ pictureUrl, texts: raw
       data-testid={dataTestId}
     >
       {texts.map((text, index) => (
-        <Text
-          key={index}
-          position="absolute"
-          left={text.x}
-          top={text.y}
+        <Caption
+          text={text}
+          index={index}
           fontSize={fontSize}
-          color="white"
-          fontFamily="Impact"
-          fontWeight="bold"
-          userSelect="none"
-          textTransform="uppercase"
-          style={{ WebkitTextStroke: '1px black' }}
-          data-testid={`${dataTestId}-text-${index}`}
-        >
-          {text.content}
-        </Text>
+          dataTestId={dataTestId}
+        />
       ))}
     </Box>
   );

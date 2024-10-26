@@ -8,11 +8,22 @@ interface UserAvatarContentProps {
   mr?: number;
 }
 
-export const UserAvatarContent: FC<UserAvatarContentProps> = ({ userId, size = 'xs', mr }) => {
+export const UserAvatarContent: FC<UserAvatarContentProps> = ({
+  userId,
+  size = 'xs',
+  mr,
+}) => {
   const { user } = useGetUserById({ userId });
 
   return (
-    <Avatar borderWidth="1px" borderColor="gray.300" size={size} mr={mr} name={user.username} src={user.pictureUrl} />
+    <Avatar
+      borderWidth="1px"
+      borderColor="gray.300"
+      size={size}
+      mr={mr}
+      name={user?.username}
+      src={user?.pictureUrl}
+    />
   );
 };
 

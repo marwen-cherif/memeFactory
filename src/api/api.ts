@@ -20,6 +20,7 @@ export async function login(
   return publicApiCall<LoginResponse>(`${BASE_URL}/authentication/login`, {
     method: 'POST',
     body: { username, password },
+    redirectOnUnauthorized: false,
   });
 }
 
@@ -35,6 +36,10 @@ export type GetUserByIdResponse = {
  * @returns
  */
 export async function getUserById(id: string): Promise<GetUserByIdResponse> {
+  if (!id) {
+    throw new Error('Invalid user id');
+  }
+
   return apiCall<GetUserByIdResponse>(`${BASE_URL}/users/${id}`, {
     method: 'GET',
   });

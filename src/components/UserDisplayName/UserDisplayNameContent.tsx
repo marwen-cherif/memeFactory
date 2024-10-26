@@ -8,12 +8,16 @@ interface UserAvatarContentProps {
   ml?: number;
 }
 
-export const UserDisplayNameContent: FC<UserAvatarContentProps> = ({ userId, dataTestId, ml }) => {
+export const UserDisplayNameContent: FC<UserAvatarContentProps> = ({
+  userId,
+  dataTestId,
+  ml,
+}) => {
   const { user } = useGetUserById({ userId });
 
   return (
     <Text ml={ml} data-testid={dataTestId}>
-      {user.username}
+      {user?.username}
     </Text>
   );
 };

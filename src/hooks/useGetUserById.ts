@@ -8,6 +8,10 @@ export const useGetUserById = ({ userId }: { userId: string }) => {
     staleTime: Infinity,
     queryKey: [GET_USER_BY_ID_QUERY_KEY, { userId }],
     queryFn: async () => {
+      if (!userId) {
+        return undefined;
+      }
+
       return await Service.getUserById(userId);
     },
   });
