@@ -1,11 +1,11 @@
 import { useDropzone } from 'react-dropzone';
 import { AspectRatio, Box, Button, Icon } from '@chakra-ui/react';
 import { Pencil } from '@phosphor-icons/react';
-import { NoPictureDisplay } from '@/components/MemeEditor/NoPictureDisplay.tsx';
+import { NoPictureDisplay } from '@/pages/CreateMemePage/MemeEditor/NoPictureDisplay.tsx';
 import { useFormContext, useWatch } from 'react-hook-form';
-import { MemeEditorFormValue } from '@/components/MemeEditor/MemeEditor.types.ts';
+import { MemeEditorFormValue } from '@/pages/CreateMemePage/MemeEditor/MemeEditor.types.ts';
 import React, { RefObject } from 'react';
-import { MemeEditorPicture } from '@/components/MemeEditor/MemeEditorPicture/MemeEditorPicture.tsx';
+import { MemeEditorPicture } from '@/pages/CreateMemePage/MemeEditor/MemeEditorPicture/MemeEditorPicture.tsx';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const MemeEditor = React.forwardRef<HTMLElement, any>(
@@ -46,7 +46,7 @@ export const MemeEditor = React.forwardRef<HTMLElement, any>(
           borderRadius={9}
           px={1}
         >
-          <input {...getInputProps()} />
+          <input {...getInputProps()} data-testid="fileInput" />
 
           {picture && (
             <Box
@@ -79,6 +79,7 @@ export const MemeEditor = React.forwardRef<HTMLElement, any>(
                 transform="translate(-50%, -50%)"
                 position="absolute"
                 onClick={open}
+                data-testid="memeEditor_changePictureButton"
               >
                 Change picture
               </Button>

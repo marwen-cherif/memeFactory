@@ -1,9 +1,10 @@
 import { FC } from 'react';
 import { Box, Flex, Heading, Text, Textarea, VStack } from '@chakra-ui/react';
-import { MemeEditor } from '@/components/MemeEditor/MemeEditor.tsx';
-import { useCreateMemePage } from '@/pages/CreateMemePage/CreateMemePage.hooks.ts';
-import { CaptionsManager } from '@/pages/CreateMemePage/CaptionsManager/CaptionsManager.tsx';
 import { FormProvider } from 'react-hook-form';
+
+import { MemeEditor } from './MemeEditor/MemeEditor.tsx';
+import { useCreateMemePage } from './CreateMemePage.hooks.ts';
+import { CaptionsManager } from './CaptionsManager/CaptionsManager.tsx';
 
 import './CreateMemePage.css';
 
@@ -34,6 +35,7 @@ export const CreateMemePage: FC = () => {
                 </Heading>
 
                 <Textarea
+                  data-testid="description"
                   placeholder="Type your description here..."
                   {...register('description')}
                 />

@@ -21,11 +21,6 @@ export const CaptionsManager: FC = () => {
     register,
     formState: { isSubmitting },
   } = useFormContext<CreateMemeFormValues>();
-  /*
-  const texts = useWatch({
-    name: 'texts',
-    control,
-  });*/
 
   const memePicture = useWatch({
     name: 'picture',
@@ -54,7 +49,11 @@ export const CaptionsManager: FC = () => {
         <VStack>
           {fields.map((field, index) => (
             <Flex width="full" key={field.id}>
-              <Input {...register(`texts.${index}.content`)} mr={1} />
+              <Input
+                {...register(`texts.${index}.content`)}
+                mr={1}
+                data-testid={`captionContent-${index}`}
+              />
               <IconButton
                 onClick={() => remove(index)}
                 aria-label="Delete caption"
@@ -71,6 +70,7 @@ export const CaptionsManager: FC = () => {
             width="full"
             onClick={handleAddCaptionButtonClick}
             isDisabled={memePicture === undefined}
+            data-testid="add-caption"
           >
             Add a caption
           </Button>
@@ -85,6 +85,7 @@ export const CaptionsManager: FC = () => {
           variant="outline"
           size="sm"
           width="full"
+          data-testid="cancel"
         >
           Cancel
         </Button>
@@ -96,6 +97,7 @@ export const CaptionsManager: FC = () => {
           color="white"
           isDisabled={memePicture === undefined}
           isLoading={isSubmitting}
+          data-testid="submit"
         >
           Submit
         </Button>

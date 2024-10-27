@@ -1,7 +1,7 @@
-import { FC, useState } from 'react';
+import { FC, RefObject, useState } from 'react';
 import { Text } from '@chakra-ui/react';
 import { useFormContext } from 'react-hook-form';
-import { MemeEditorFormValue } from '@/components/MemeEditor/MemeEditor.types.ts';
+import { MemeEditorFormValue } from '@/pages/CreateMemePage/MemeEditor/MemeEditor.types.ts';
 
 interface CaptionProps {
   text: {
@@ -12,6 +12,7 @@ interface CaptionProps {
   dataTestId?: string;
   index: number;
   fontSize: number;
+  editorPictureRef: RefObject<HTMLElement>;
 }
 
 export const DraggableCaption: FC<CaptionProps> = ({
@@ -19,6 +20,7 @@ export const DraggableCaption: FC<CaptionProps> = ({
   index,
   dataTestId,
   fontSize,
+  editorPictureRef,
 }) => {
   const formContext = useFormContext<MemeEditorFormValue>();
   const { setValue, getValues } = formContext;
@@ -26,6 +28,10 @@ export const DraggableCaption: FC<CaptionProps> = ({
   const [currentY, setCurrentY] = useState(text.y);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
+
+  if (!editorPictureRef?.current) {
+    return <></>;
+  }
 
   return (
     <Text
@@ -42,6 +48,7 @@ export const DraggableCaption: FC<CaptionProps> = ({
       data-testid={`${dataTestId}-text-${index}`}
       style={{
         WebkitTextStroke: '1px black',
+        cursor: 'pointer',
       }}
       draggable={true}
       onDragStart={(e) => {
@@ -55,7 +62,12 @@ export const DraggableCaption: FC<CaptionProps> = ({
         const newX = e.clientX - offsetX - 22;
         const newY = e.clientY - offsetY - 100;
 
-        if (newX <= 400 && newY <= 255 && newX >= 0 && newY >= 0) {
+        if (
+          newX <= (editorPictureRef.current?.offsetWidth || 0) &&
+          newY <= (editorPictureRef.current?.offsetHeight || 0) &&
+          newX >= 0 &&
+          newY >= 0
+        ) {
           setCurrentX(newX);
           setCurrentY(newY);
         }

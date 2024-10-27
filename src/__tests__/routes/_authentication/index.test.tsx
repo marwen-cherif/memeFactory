@@ -2,7 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { AuthenticationContext } from '../../../contexts/authentication';
-import { renderWithRouter } from '../../utils';
+import { renderWithRouter } from '../../../helpers/testUtils.tsx';
 import { MemeFeedPage } from '@/pages/MemeFeedPage/MemeFeedPage.tsx';
 
 describe('routes/_authentication/index', () => {

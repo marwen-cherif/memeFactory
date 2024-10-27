@@ -1,8 +1,11 @@
 import { vi } from 'vitest';
 import { act, fireEvent, waitFor, screen } from '@testing-library/react';
-import { renderWithRouter } from '../utils';
+import { renderWithRouter } from '../../helpers/testUtils.tsx';
 import { LoginPage } from '../../pages/LoginPage.tsx';
-import { AuthenticationContext, AuthenticationState } from '../../contexts/authentication';
+import {
+  AuthenticationContext,
+  AuthenticationState,
+} from '../../contexts/authentication';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 import { ListenerFn, RouterEvents } from '@tanstack/react-router';
@@ -95,7 +98,9 @@ describe('routes/login', () => {
       });
 
       await waitFor(() => {
-        expect(screen.getByText(/an unknown error occured, please try again later/i)).toBeInTheDocument();
+        expect(
+          screen.getByText(/an unknown error occured, please try again later/i)
+        ).toBeInTheDocument();
       });
     });
 

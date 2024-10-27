@@ -1,6 +1,6 @@
 import { Box, useDimensions } from '@chakra-ui/react';
 import React, { RefObject, useMemo } from 'react';
-import { DraggableCaption } from '@/components/MemeEditor/MemeEditorPicture/DraggableCaption.tsx';
+import { DraggableCaption } from '@/pages/CreateMemePage/MemeEditor/MemeEditorPicture/DraggableCaption.tsx';
 
 export type MemePictureProps = {
   pictureUrl: string;
@@ -64,6 +64,7 @@ export const MemeEditorPicture = React.forwardRef<
           index={index}
           fontSize={fontSize}
           dataTestId={dataTestId}
+          editorPictureRef={editorPictureRef as RefObject<HTMLElement>}
         />
       ))}
     </Box>

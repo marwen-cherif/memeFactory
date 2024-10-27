@@ -10,6 +10,7 @@ export const NoPictureDisplay: FC = () => {
       height="full"
       alignItems="center"
       justifyContent="center"
+      style={{ cursor: 'pointer' }}
     >
       <Icon as={Image} color="black" boxSize={16} />
       <Text>Select a picture</Text>
